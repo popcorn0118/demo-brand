@@ -30,36 +30,34 @@ jQuery(document).ready(function ($) {
     });
   }
 
-   /**
-   * 首頁banner輪播
-   * wp-content\themes\astra-child\inc\frontend\30-index-carousel-shortcode.php
-   */
+/**
+ * 首頁banner輪播
+ * wp-content\themes\astra-child\inc\frontend\30-index-carousel-shortcode.php
+ */
   var $index_carousel = $('.qz-index-carousel__track');
-  if (!$index_carousel.length) return;
 
-  $index_carousel.slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    dots: true,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    speed: 600,
-    infinite: true,
-    pauseOnHover: false,
-    pauseOnFocus: false,
-    adaptiveHeight: false,
-    prevArrow: '<div class="slick-prev"><button type="button"><span></span></button></div>',
-    nextArrow: '<div class="slick-next"><button type="button"><span></span></button></div>',
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          arrows: false,
-        }
-      }
-    ]
-  });
+  if ($index_carousel.length && typeof $.fn.slick === 'function') {
+    if (!$index_carousel.hasClass('slick-initialized')) {
+      $index_carousel.slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: true,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        speed: 600,
+        infinite: true,
+        pauseOnHover: false,
+        pauseOnFocus: false,
+        adaptiveHeight: false,
+        prevArrow: '<div class="slick-prev"><button type="button"><span></span></button></div>',
+        nextArrow: '<div class="slick-next"><button type="button"><span></span></button></div>',
+        responsive: [
+          { breakpoint: 768, settings: { arrows: false } }
+        ]
+      });
+    }
+  }
 
 
   /**
@@ -231,7 +229,6 @@ function initHeaderMarquee() {
  *  文章頁 - 下拉選單（921px 以下啟用）
  * ===================================================== */
 function initDropdown() {
-  console.log('initDropdown run', $(window).width(), $('.dropdown-title').length);
   if ($(window).width() <= 921) {
     // 清除舊事件再重綁，避免重複綁定
     $(".dropdown-title").off(".dropdown");
@@ -240,7 +237,6 @@ function initDropdown() {
 
     // 點擊展開 / 收起
     $(".dropdown-title").on("click.dropdown", function (e) {
-      console.log(123);
       e.stopPropagation();
       const $this = $(this);
       const $dropdown = $this.next(".dropdown-list");
